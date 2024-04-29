@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debit Card Details</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: calc(100% - 24px);
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    .error-message {
+      color: red;
+      font-size: 0.8em;
+      margin-top: 5px;
+    }
+    button[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .success-message {
+      color: green;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Enter Debit Card Details</h1>
+    <form id="debitCardForm">
+      <div class="form-group">
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber" name="cardNumber" maxlength="16" pattern="[0-9]{16}" required>
+        <div class="error-message" id="cardNumberError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="text" id="expiryDate" name="expiryDate" placeholder="Select Expiry Date" readonly required>
+        <div class="error-message" id="expiryDateError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="cvv">CVV:</label>
+        <input type="password" id="cvv" name="cvv" maxlength="3" pattern="[0-9]{3}" required>
+        <div class="error-message" id="cvvError"></div>
+      </div>
+
+      <button type="submit" id="submitButton">Submit</button>
+      <div class="success-message" id="successMessage">Payment Successful!</div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    // Initialize Flatpickr for the expiry date input
+    flatpickr("#expiryDate", {
+      dateFormat: "m/Y",
+      minDate: "today",
+      maxDate: new Date().fp_incr(120), // Allow selection up to 10 years in the future
+    });
+
+    // Add event listener to the submit button
+    document.getElementById('submitButton').addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var cardNumber = document.getElementById('cardNumber').value;
+      var expiryDate = document.getElementById('expiryDate').value;
+      var cvv = document.getElementById('cvv').value;
+
+      // Validate card number
+      var cardNumberError = document.getElementById('cardNumberError');
+      if (!/^[0-9]{16}$/.test(cardNumber)) {
+        cardNumberError.textContent = 'Invalid card number. Please enter 16 digits.';
+        return;
+      } else {
+        cardNumberError.textContent = '';
+      }
+
+      // Validate expiry date
+      var expiryDateError = document.getElementById('expiryDateError');
+      if (!expiryDate) {
+        expiryDateError.textContent = 'Please select an expiry date.';
+        return;
+      } else {
+        expiryDateError.textContent = '';
+      }
+
+      // Validate CVV
+      var cvvError = document.getElementById('cvvError');
+      if (!/^[0-9]{3}$/.test(cvv)) {
+        cvvError.textContent = 'Invalid CVV. Please enter 3 digits.';
+        return;
+      } else {
+        cvvError.textContent = '';
+      }
+
+      // Optionally, simulate payment process (can be replaced with actual payment processing logic)
+      setTimeout(function() {
+        // Redirect to successful.html
+        window.location.href = 'successful.html';
+      }, 2000); // Simulate 2 seconds delay for payment processing
+    });
+  </script>
+</body>
+</html>

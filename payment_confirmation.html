@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parkease - Payment Confirmation</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+    }
+
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+      background-color: #fff;
+    }
+
+    .card-title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .card-text {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .amount {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-body text-center">
+        <h1 class="card-title mt-5">Payment Confirmation</h1>
+        <p class="card-text">Thank you for choosing Parkease!</p>
+        <hr>
+        <h4 class="card-title">Reservation Details</h4>
+        <p class="card-text">Location: <span id="location"></span></p>
+        <p class="card-text">Date: <span id="date"></span></p>
+        <p class="card-text">Time: <span id="time"></span></p>
+        <p class="card-text">Duration: <span id="duration"></span></p>
+        <p class="card-text">Amount: <span class="amount" id="amount"></span></p>
+        <hr>
+        <p class="card-text">Please proceed with the payment to confirm your reservation.</p>
+        <button class="btn btn-primary" onclick="redirectToPayment()">Proceed to Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+    function getUrlParameter(name) {
+      name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    
+    document.getElementById('location').textContent = getUrlParameter('location');
+    document.getElementById('date').textContent = getUrlParameter('date');
+    document.getElementById('time').textContent = getUrlParameter('time');
+    document.getElementById('duration').textContent = getUrlParameter('duration');
+    var durationHours = parseInt(getUrlParameter('duration'));
+    var amount = durationHours * 50; 
+    document.getElementById('amount').textContent = ' ₹' + amount.toFixed(2);
+
+    // Redirect to payment page
+    function redirectToPayment() {
+      // Replace 'payment.html' with your actual payment page URL
+      window.location.href = 'payment.html';
+    }
+  </script>
+</body>
+</html>
