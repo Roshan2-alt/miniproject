@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parkease - Reserve Parking</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+    /* Your custom styles here */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mt-5">Parkease - Reserve Parking</h1>
+
+    <form id="reservationForm" action="javascript:void(0);">
+      <div class="form-group">
+        <label for="location">Select Location:</label>
+        <select id="location" class="form-control" name="location">
+          <option value="Trivandrum">Trivandrum</option>
+          <option value="Kochi">Kochi</option>
+          <option value="Kozhikode">Kozhikode</option>
+          <!-- Add more options for other places in Kerala -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" class="form-control" name="date" min="<%= new Date().toISOString().split('T')[0] %>" max="<%= new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0] %>">
+      </div>
+
+      <div class="form-group">
+        <label for="time">Select Time:</label>
+        <input type="text" id="time" class="form-control" name="time" placeholder="Select Time" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Select Duration (hours):</label>
+        <select id="duration" class="form-control" name="duration">
+          <option value="1">1 hour</option>
+          <option value="2">2 hours</option>
+          <option value="3">3 hours</option>
+          <option value="4">4 hours</option>
+          <!-- Add options for durations up to 23 hours -->
+          <optgroup label="Hours">
+            <!-- Include options for 5 to 23 hours -->
+            <option value="5">5 hours</option>
+            <!-- Add more options if needed -->
+          </optgroup>
+          <optgroup label="Full Day">
+            <option value="24">24 hours (1 day)</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <button id="reserveButton" type="button" class="btn btn-primary btn-block">Reserve Parking</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    flatpickr("#time", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "h:i K",
+      minTime: "00:00 AM",
+      maxTime: "11:59 PM",
+    });
+
+    // Add event listener to the button
+    document.getElementById('reserveButton').addEventListener('click', function() {
+      var location = document.getElementById('location').value;
+      var date = document.getElementById('date').value;
+      var time = document.getElementById('time').value;
+      var duration = document.getElementById('duration').value;
+
+      // Redirect to payment confirmation page with query parameters
+      window.location.href = 'payment_confirmation.html?location=' + location +
+                             '&date=' + date + '&time=' + time + '&duration=' + duration;
+    });
+  </script>
+</body>
+</html>
