@@ -69,10 +69,11 @@
         <p class="card-text">Date: <span id="date"></span></p>
         <p class="card-text">Time: <span id="time"></span></p>
         <p class="card-text">Duration: <span id="duration"></span></p>
+        <p class="card-text">Vechicle Type: <span id="vehicle-type"></span></p>
         <p class="card-text">Amount: <span class="amount" id="amount"></span></p>
         <hr>
         <p class="card-text">Please proceed with the payment to confirm your reservation.</p>
-        <button class="btn btn-primary" onclick="redirectToPayment()">Proceed to Payment</button>
+        <button class="btn btn-primary" onclick="redirectToPayment()">Confirm</button>
       </div>
     </div>
   </div>
@@ -91,14 +92,42 @@
     document.getElementById('date').textContent = getUrlParameter('date');
     document.getElementById('time').textContent = getUrlParameter('time');
     document.getElementById('duration').textContent = getUrlParameter('duration');
+    document.getElementById('vehicle-type').textContent = getUrlParameter('vehicle-type');
     var durationHours = parseInt(getUrlParameter('duration'));
     var amount = durationHours * 50; 
     document.getElementById('amount').textContent = ' ₹' + amount.toFixed(2);
 
+    var city = getUrlParameter('location');
+    var date = getUrlParameter('date');
+    var time = getUrlParameter('time');
+    var duration = getUrlParameter('duration');
+    var vehicleType = getUrlParameter('vehicle-type');
+    var user = localStorage.getItem('parkingEmail');
+
     // Redirect to payment page
     function redirectToPayment() {
       // Replace 'payment.html' with your actual payment page URL
-      window.location.href = 'payment.html';
+      alert(date);
+      fetch('http://localhost:5000/api/book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          location: city,
+          date: date,
+          time: time,
+          duration: duration,
+          amount: amount,
+          user: user,
+          vehicleType: vehicleType,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          window.location.href = 'successful.html';
+        })
+      
     }
   </script>
 </body>

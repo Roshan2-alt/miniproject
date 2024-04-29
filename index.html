@@ -26,6 +26,16 @@
       </div>
 
       <div class="form-group">
+        <label for="location">Vehicle type:</label>
+        <select id="vehicle-type" class="form-control" name="vehicle-type">
+          <option value="two">Two wheeler</option>
+          <option value="four">Four wheeler</option>
+          <option value="heavy">Heavy vehicle</option>
+          <!-- Add more options for other places in Kerala -->
+        </select>
+      </div>
+
+      <div class="form-group">
         <label for="date">Select Date:</label>
         <input type="date" id="date" class="form-control" name="date" min="<%= new Date().toISOString().split('T')[0] %>" max="<%= new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0] %>">
       </div>
@@ -76,10 +86,10 @@
       var date = document.getElementById('date').value;
       var time = document.getElementById('time').value;
       var duration = document.getElementById('duration').value;
+      var vehicleType = document.getElementById('vehicle-type').value;
 
       // Redirect to payment confirmation page with query parameters
-      window.location.href = 'payment_confirmation.html?location=' + location +
-                             '&date=' + date + '&time=' + time + '&duration=' + duration;
+      window.location.href = 'payment_confirmation.html?location=' + location + '&vehicle-type=' + vehicleType +'&date=' + date + '&time=' + time + '&duration=' + duration;
     });
   </script>
 </body>
